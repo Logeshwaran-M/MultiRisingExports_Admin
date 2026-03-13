@@ -1,0 +1,87 @@
+.orders-page {
+  padding: 20px;
+}
+
+/* Card */
+.orders-card {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+/* Table */
+.orders-table thead {
+  background: #f8f9ff;
+  font-weight: 600;
+}
+
+.orders-table thead th {
+  padding: 15px;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.orders-table tbody td {
+  padding: 16px 15px;
+  vertical-align: middle;
+}
+
+.orders-table tbody tr {
+  transition: 0.2s ease;
+}
+
+.orders-table tbody tr:hover {
+  background: #f5f7ff;
+}
+
+/* Status Badge */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Status Colors */
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-processing {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-shipped {
+  background: #e2e3ff;
+  color: #4e73df;
+}
+
+.status-delivered {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Tracking Input */
+.tracking-input {
+  border-radius: 20px;
+  padding-left: 12px;
+}
+
+/* Primary Button */
+.btn-primary {
+  background: linear-gradient(135deg, #4e73df, #6f42c1);
+  border: none;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+p,h6{
+ color: black !important;
+}

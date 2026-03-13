@@ -1,0 +1,24 @@
+.settings-card {
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.settings-title {
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #4e73df;
+}
+
+.settings-card input,
+.settings-card select {
+  border-radius: 10px;
+  border: 1px solid #e0e6ed;
+  padding: 10px;
+}
+
+.settings-card input:focus {
+  border-color: #4e73df;
+  box-shadow: 0 0 0 0.1rem rgba(78, 115, 223, 0.25);
+}

@@ -1,0 +1,69 @@
+.users-page {
+  padding: 20px;
+}
+
+/* Card */
+.users-card {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+/* Table */
+.users-table thead {
+  background: #f8f9ff;
+}
+
+.users-table thead th {
+  padding: 15px;
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 600;
+}
+
+.users-table tbody td {
+  padding: 16px 15px;
+}
+
+.users-table tbody tr {
+  transition: 0.2s ease;
+}
+
+.users-table tbody tr:hover {
+  background: #f5f7ff;
+}
+
+/* Avatar */
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Role Badge */
+.role-badge {
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.role-admin {
+  background: linear-gradient(135deg, #ff4d4f, #ff7875);
+  color: white;
+}
+
+.role-customer {
+  background: #e2e3ff;
+  color: #4e73df;
+}
+
+/* Primary Button */
+.btn-primary {
+  background: linear-gradient(135deg, #4e73df, #6f42c1);
+  border: none;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
