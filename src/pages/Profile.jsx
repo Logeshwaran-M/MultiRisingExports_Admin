@@ -1,245 +1,240 @@
 import { useState, useEffect } from "react";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
+import { Mail, Phone, MapPin, Package, ShoppingCart, Users } from "lucide-react";
+import "../css/profile.css";
 
 const Profile = () => {
 
   const [editMode, setEditMode] = useState(false);
 
-  const [profile, setProfile] = useState({
-    companyName: "",
-    adminName: "",
-    adminId: "",
-    email: "",
-    phone: "",
-    address: "",
-    website: ""
+  const [counts, setCounts] = useState({
+    products: 0,
+    orders: 0,
+    users: 0
   });
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+  const [profile, setProfile] = useState({
+    adminName: "",
+    email: "",
+    phone: "",
+    address: ""
+  });
 
-  /* FETCH PROFILE FROM FIREBASE */
+ useEffect(() => {
+  fetchProfile();
+}, []);
 
-  const fetchProfile = async () => {
+  /* FETCH PROFILE */
 
-    try {
+const fetchProfile = async () => {
 
-      const docRef = doc(db, "admin_profile", "profile");
+  const docRef = doc(db, "admin_profile", "profile");
+  const docSnap = await getDoc(docRef);
 
-      const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
 
-      if (docSnap.exists()) {
+    const data = docSnap.data();
 
-        setProfile(docSnap.data());
+    setProfile(data);
 
-      }
+    fetchCounts(data.adminId); // pass adminId
 
-    } catch (error) {
+  }
 
-      console.error("Profile fetch error:", error);
+};
+  /* FETCH COUNTS */
+const fetchCounts = async () => {
 
-    }
+  /* PRODUCTS COUNT */
+  const productsSnap = await getDocs(collection(db, "products"));
 
-  };
+  /* USERS COUNT */
+  const usersSnap = await getDocs(collection(db, "users"));
 
-  const handleChange = (e) => {
+  /* ORDERS COUNT FROM ALL USERS */
 
-    setProfile({
-      ...profile,
-      [e.target.name]: e.target.value
-    });
+  let totalOrders = 0;
 
-  };
+  for (const userDoc of usersSnap.docs) {
 
-  /* SAVE PROFILE TO FIREBASE */
+    const ordersRef = collection(db, "users", userDoc.id, "orders");
+
+    const ordersSnap = await getDocs(ordersRef);
+
+    totalOrders += ordersSnap.size;
+
+  }
+
+  setCounts({
+    products: productsSnap.size,
+    orders: totalOrders,
+    users: usersSnap.size
+  });
+
+};
 
   const handleSave = async (e) => {
 
     e.preventDefault();
 
-    try {
+    await setDoc(doc(db, "admin_profile", "profile"), profile);
 
-      await setDoc(doc(db, "admin_profile", "profile"), profile);
+    setEditMode(false);
 
-      setEditMode(false);
-
-      alert("Profile updated successfully");
-
-    } catch (error) {
-
-      console.error("Update error:", error);
-
-    }
+    alert("Profile Updated Successfully");
 
   };
 
   return (
 
-    <div className="container-fluid py-4">
+    <div className="profile-container">
 
-      <div className="row justify-content-center">
+      {/* HEADER */}
 
-        <div className="col-lg-8">
+      <div className="profile-header">
 
-          <div className="card shadow border-0 rounded-4 p-4">
+        <div className="profile-avatar-large">
+          {profile.adminName?.charAt(0)}
+        </div>
 
-            <div className="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h3>{profile.adminName || "Admin User"}</h3>
+          <p className="text-white">Administrator</p>
+        </div>
 
-              <h4 className="fw-bold text-primary">
-                👤 Admin Profile
-              </h4>
+        {!editMode && (
+          <button
+            className="edit-btn"
+            onClick={() => setEditMode(true)}
+          >
+            Edit Profile
+          </button>
+        )}
 
-              {!editMode && (
+      </div>
 
-                <button
-                  className="btn btn-outline-primary btn-sm"
-                  onClick={() => setEditMode(true)}
-                >
-                  Edit
-                </button>
 
-              )}
+      {/* INFO CARDS */}
 
+      {!editMode && (
+
+        <div className="profile-grid">
+
+          <div className="profile-card">
+            <Mail size={20}/>
+            <div>
+              <span  className="text-white">Email</span>
+              <p  className="text-white">{profile.email}</p>
             </div>
+          </div>
 
-            {/* VIEW MODE */}
+          <div className="profile-card">
+            <Phone size={20}/>
+            <div>
+              <span  className="text-white">Phone</span>
+              <p  className="text-white">{profile.phone}</p>
+            </div>
+          </div>
 
-            {!editMode && (
-
-              <div className="profile-view">
-
-                <p><b>Company Name:</b> {profile.companyName}</p>
-
-                <p><b>Website:</b> {profile.website}</p>
-
-                <hr />
-
-                <p><b>Admin Name:</b> {profile.adminName}</p>
-
-                <p><b>Admin ID:</b> {profile.adminId}</p>
-
-                <p><b>Email:</b> {profile.email}</p>
-
-                <p><b>Phone:</b> {profile.phone}</p>
-
-                <p><b>Address:</b> {profile.address}</p>
-
-              </div>
-
-            )}
-
-            {/* EDIT MODE */}
-
-            {editMode && (
-
-              <form onSubmit={handleSave}>
-
-                <div className="mb-3">
-                  <label className="fw-semibold">Company Name</label>
-                  <input
-                    type="text"
-                    name="companyName"
-                    value={profile.companyName}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="fw-semibold">Website</label>
-                  <input
-                    type="text"
-                    name="website"
-                    value={profile.website}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="fw-semibold">Admin Name</label>
-                  <input
-                    type="text"
-                    name="adminName"
-                    value={profile.adminName}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="fw-semibold">Admin ID</label>
-                  <input
-                    type="text"
-                    name="adminId"
-                    value={profile.adminId}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="fw-semibold">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={profile.email}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="fw-semibold">Phone</label>
-                  <input
-                    type="text"
-                    name="phone"
-                    value={profile.phone}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="fw-semibold">Address</label>
-                  <textarea
-                    name="address"
-                    value={profile.address}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="d-flex gap-2">
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                  >
-                    Save
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setEditMode(false)}
-                  >
-                    Cancel
-                  </button>
-
-                </div>
-
-              </form>
-
-            )}
-
+          <div className="profile-card">
+            <MapPin size={20}/>
+            <div>
+              <span  className="text-white">Address</span>
+              <p  className="text-white">{profile.address}</p>
+            </div>
           </div>
 
         </div>
 
-      </div>
+      )}
+
+
+      {/* COUNTS */}
+
+      {!editMode && (
+
+        <div className="stats-grid text-white">
+
+          <div className="stats-card">
+            <Package size={22}/>
+            <h2 >{counts.products}</h2>
+            <p  className="text-white">Products</p>
+          </div>
+
+          <div className="stats-card">
+            <ShoppingCart size={22}/>
+            <h2>{counts.orders}</h2>
+            <p  className="text-white">Orders</p>
+          </div>
+
+          <div className="stats-card">
+            <Users size={22}/>
+            <h2>{counts.users}</h2>
+            <p  className="text-white">Users</p>
+          </div>
+
+        </div>
+
+      )}
+
+
+      {/* EDIT FORM */}
+
+      {editMode && (
+
+        <form className="profile-form" onSubmit={handleSave}>
+
+          <input
+            type="text"
+            name="adminName"
+            placeholder="Admin Name"
+            value={profile.adminName}
+            onChange={handleChange}
+          />
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={profile.email}
+            onChange={handleChange}
+          />
+
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone"
+            value={profile.phone}
+            onChange={handleChange}
+          />
+
+          <textarea
+            name="address"
+            placeholder="Address"
+            value={profile.address}
+            onChange={handleChange}
+          />
+
+          <div className="form-buttons">
+
+            <button type="submit" className="save-btn">
+              Save
+            </button>
+
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={() => setEditMode(false)}
+            >
+              Cancel
+            </button>
+
+          </div>
+
+        </form>
+
+      )}
 
     </div>
 

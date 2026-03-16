@@ -1,47 +1,100 @@
+.admin-header {
+  background-color: #2c2c3e;
+  color: #fff;
+}
+
 /* ===== Profile Avatar ===== */
 .profile-avatar {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #ececee; /* Dark background */
-  color: #333030; /* White text/icon */
+  background: #ececee;
+  color: #333030;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
   font-size: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 .profile-avatar:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
-  background: #fafafc; /* Slightly lighter on hover */
-  color: #ffffff; /* Text stays white */
+  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+  background: #fafafc;
 }
 
-/* ===== Logout Button ===== */
+/* ===== Logout Button Desktop ===== */
 .logout-btn {
   border: none;
-  background: #f53f3f; /* Dark background */
-  color: #fdf0f0; /* Red text/icon */
-  padding: 6px 14px;
-  border-radius: 15px;
-  font-size: 13px;
-  font-weight: 500;
+  background: #f53f3f;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 18px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .logout-btn:hover {
-  background: #f10404; /* Slightly lighter dark on hover */
-  color: #fffdfd; /* Brighter red on hover */
+  background: #f10404;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
 }
 
-.admin-header{
-  background-color: #2c2c3e;
+/* ===== Mobile Dropdown ===== */
+.mobile-profile-dropdown {
+  position: absolute;
+  top: 45px;   /* show below avatar */
+  right: 0;    /* align with avatar */
+  left: auto;  /* remove left alignment */
+  background: #3b3b50;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 100;
+}
+
+.mobile-profile-item {
+  display: flex;
+  justify-content: space-between; /* icon right side */
+  align-items: center;
+  gap: 6px;
+}
+
+.mobile-icon {
+  color: gray;
+}
+
+/* Mobile logout button */
+.logout-btn-mobile {
+  border: none;
+  background: #f53f3f;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.logout-btn-mobile:hover {
+  background: #f10404;
+}
+
+/* Right align profile container on mobile */
+@media (max-width: 767px) {
+  .profile-container {
+    margin-left: auto; /* push everything to right */
+  }
+
+  /* hide desktop text + logout */
+  .profile-section .d-md-flex,
+  .profile-section .logout-btn {
+    display: none !important;
+  }
 }

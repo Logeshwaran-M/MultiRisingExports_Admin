@@ -16,6 +16,8 @@ const BUCKET_NAME = import.meta.env.VITE_AWS_BUCKET_NAME;
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+const [filterCategory, setFilterCategory] = useState("");
   const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("add"); // "add" | "edit" | "details"
@@ -45,6 +47,17 @@ const Products = () => {
       console.error("Error fetching categories:", error);
     }
   };
+
+
+  const filteredProducts = products.filter((product) => {
+  const matchesSearch =
+    product.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+  const matchesCategory =
+    filterCategory === "" || product.category === filterCategory;
+
+  return matchesSearch && matchesCategory;
+});
 
   // Fetch Products
   const fetchProducts = async () => {
@@ -179,6 +192,33 @@ const Products = () => {
         </button>
       </div>
 
+      <div className="d-flex gap-3 mb-3">
+
+  {/* Search */}
+  <input
+    type="text"
+    className="form-control"
+    placeholder="Search product..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+
+  {/* Category Filter */}
+  <select
+    className="form-control"
+    value={filterCategory}
+    onChange={(e) => setFilterCategory(e.target.value)}
+  >
+    <option value="">All Categories</option>
+    {categories.map((cat) => (
+      <option key={cat.id} value={cat.name}>
+        {cat.name}
+      </option>
+    ))}
+  </select>
+
+</div>
+
       {/* Product Table */}
       <div className="card product-card shadow-sm border-0">
         <div className="card-body p-0">
@@ -195,7 +235,7 @@ const Products = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product, index) => (
+           {  filteredProducts.map((product, index) => (
                   <tr key={product.id}>
                     <td className="fw-semibold text-primary">#{index + 1}</td>
                     <td>
@@ -249,7 +289,7 @@ const Products = () => {
           <div className="modal-box">
             {modalType === "details" && selectedProduct && (
               <>
-                <h5 className="mb-3 fw-bold text-white">Product Details</h5>
+                <h5 className="mb-3 fw-bold text-dark">Product Details</h5>
                 <img
                   src={selectedProduct.image || "https://via.placeholder.com/150"}
                   alt="product"
