@@ -78,7 +78,14 @@ const [filterCategory, setFilterCategory] = useState("");
   };
 
   // Input Change
-  const handleChange = (e) => setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  setNewProduct(prev => ({
+    ...prev,
+    [name]: value
+  }));
+};
 
   // Image Upload
   const handleImageChange = (e) => {
@@ -284,7 +291,7 @@ const [filterCategory, setFilterCategory] = useState("");
       </div>
 
       {/* Modal (Add/Edit/Details) */}
-      {showModal && (
+     <div className={`modal-overlay ${showModal ? "show" : "hide"}`}>
         <div className="modal-overlay">
           <div className="modal-box">
             {modalType === "details" && selectedProduct && (
@@ -390,7 +397,7 @@ const [filterCategory, setFilterCategory] = useState("");
             )}
           </div>
         </div>
-      )}
+    </div>
     </div>
   );
 };

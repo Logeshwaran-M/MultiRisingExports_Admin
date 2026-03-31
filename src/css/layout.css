@@ -54,7 +54,7 @@
 }
 
 .admin-content:hover {
-  transform: translateY(-3px);
+
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
 }
 

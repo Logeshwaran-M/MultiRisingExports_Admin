@@ -74,6 +74,14 @@ const fetchCounts = async () => {
 
 };
 
+
+const handleChange = (e) => {
+  setProfile({
+    ...profile,
+    [e.target.name]: e.target.value
+  });
+};
+
   const handleSave = async (e) => {
 
     e.preventDefault();

@@ -41,6 +41,11 @@ const Sidebar = () => {
           <FaShoppingCart /> Orders
         </NavLink>
 
+        
+        <NavLink to="/blog" className="sidebar-link" onClick={() => setIsOpen(false)}>
+          <FaBox /> Blogs
+        </NavLink>
+
         <NavLink to="/users" className="sidebar-link" onClick={() => setIsOpen(false)}>
           <FaUsers /> Users
         </NavLink>

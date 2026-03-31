@@ -8,6 +8,7 @@ import Settings from "./pages/Settings";
 import Categories from "./pages/Category";
 import AdminLogin from "./pages/AdminLogin";
 import Profile from "./pages/Profile";
+import Blog from "./pages/Blog";
 
 /* Protect Admin Routes */
 
@@ -43,6 +44,7 @@ function App() {
           <Route path="orders" element={<Orders />} />
           <Route path="users" element={<Users />} />
           <Route path="settings" element={<Profile />} />
+             <Route path="blog" element={<Blog />} />
           <Route path="category" element={<Categories />} />
         </Route>
 
