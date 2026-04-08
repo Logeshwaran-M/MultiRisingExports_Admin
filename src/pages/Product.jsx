@@ -296,17 +296,17 @@ const [filterCategory, setFilterCategory] = useState("");
           <div className="modal-box">
             {modalType === "details" && selectedProduct && (
               <>
-                <h5 className="mb-3 fw-bold text-dark">Product Details</h5>
+                <h5 className="mb-3 fw-bold text-white">Product Details</h5>
                 <img
                   src={selectedProduct.image || "https://via.placeholder.com/150"}
                   alt="product"
                   className="preview-img mb-3"
                 />
-                <p><strong>Name:</strong> {selectedProduct.name}</p>
-                <p><strong>Category:</strong> {selectedProduct.category}</p>
-                <p><strong>Price:</strong> ₹{selectedProduct.price}</p>
-                <p><strong>Stock:</strong> {selectedProduct.stock}</p>
-                <p><strong>Description:</strong> {selectedProduct.description}</p>
+                <p className="text-white"><strong>Name:</strong> {selectedProduct.name}</p>
+                <p className="text-white"><strong>Category:</strong> {selectedProduct.category}</p>
+                <p className="text-white"><strong>Price:</strong> ₹{selectedProduct.price}</p>
+                <p className="text-white"><strong>Stock:</strong> {selectedProduct.stock}</p>
+                <p className="text-white"><strong>Description:</strong> {selectedProduct.description}</p>
                 <div className="d-flex justify-content-end">
                   <button className="btn btn-outline-secondary" onClick={closeModal}>
                     Close

@@ -429,6 +429,109 @@ const Orders = () => {
 
       </div>
 
+      {showViewModal && selectedOrder && (
+  <div className="modal fade show d-block">
+    <div className="modal-dialog modal-lg">
+      <div className="modal-content">
+
+        <div className="modal-header">
+          <h5 className="text-dark">Order Details</h5>
+          <button className="btn-close" onClick={() => setShowViewModal(false)} />
+        </div>
+
+        <div className="modal-body">
+          <p><strong>Order ID:</strong> {selectedOrder.id}</p>
+          <p><strong>Customer:</strong> {selectedOrder.name}</p>
+          <p><strong>Email:</strong> {selectedOrder.email}</p>
+          <p><strong>Status:</strong> {selectedOrder.status}</p>
+          <p><strong>Total:</strong> ₹{selectedOrder.amount}</p>
+
+          <hr />
+
+          <h6>Products:</h6>
+          {selectedOrder.products.map((p, i) => (
+            <div key={i} className="d-flex justify-content-between">
+              <span>{p.name}</span>
+              <span>₹{p.price}</span>
+            </div>
+          ))}
+
+          <hr />
+
+          <h6>Address:</h6>
+          <p>
+            {selectedOrder.address?.addressLine1}, {selectedOrder.address?.city}
+          </p>
+        </div>
+
+        <div className="modal-footer">
+          <button className="btn btn-secondary" onClick={() => setShowViewModal(false)}>
+            Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+)}
+
+{showEditModal && selectedOrder && (
+  <div className="modal fade show d-block">
+    <div className="modal-dialog">
+      <div className="modal-content">
+
+        <div className="modal-header">
+          <h5 className="text-dark">Edit Order</h5>
+          <button className="btn-close" onClick={() => setShowEditModal(false)} />
+        </div>
+
+        <div className="modal-body">
+
+          <label>Status</label>
+          <select
+            className="form-select"
+            value={selectedOrder.status}
+            onChange={(e) =>
+              setSelectedOrder({
+                ...selectedOrder,
+                status: e.target.value,
+              })
+            }
+          >
+            <option>Pending</option>
+            <option>Processing</option>
+            <option>Shipped</option>
+            <option>Delivered</option>
+            <option>Cancelled</option>
+          </select>
+
+        </div>
+
+        <div className="modal-footer">
+          <button
+            className="btn btn-success"
+            onClick={() =>
+              handleUpdate(selectedOrder.userId, selectedOrder.id, {
+                orderStatus: selectedOrder.status,
+              })
+            }
+          >
+            Save
+          </button>
+
+          <button
+            className="btn btn-secondary"
+            onClick={() => setShowEditModal(false)}
+          >
+            Cancel
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
 
   );
